@@ -48,6 +48,9 @@ void genDat(string fname, int n) {
 	fout.write((char*) &n, sizeof(n));
 	long id;
 	for(int i=0; i<n; i++){
+		if(i%1000000==0){
+			printf("process %d00w\n", i);
+		}
 		id = i;
 		Tdata nd;
 		nd.size = randInt(50) + 1;
@@ -85,50 +88,6 @@ void readDat(string fname, tmap & map) {
 	fin.close();
 }
 
-
-void test() {
-	printf("hello world!\n");
-	const static int N = 1000;
-	//short kt = 10;
-	//printf("sizeof n = %d\n", sizeof(kt));
-	struct timeval t1;
-    struct timeval t2;
-    struct timeval t3;
-    double time;
-    int num = 0;
-
-    // --- begin
-    gettimeofday(&t1,NULL);
-
-	hashmap map(N*2);	
-	for(int i=0; i<N; i++){
-		long id = i;
-		Ndata nd;
-		nd.size = (i%10)+1;
-		nd.data = createData(nd.size);
-		map[id] = nd;
-		
-	}
-	
-	gettimeofday(&t2,NULL);
-	time = gettime(t1, t2);
-	printf("build map! time use = %f ms\n", time);
-
-	long v;
-	for(int i=0; i<N; i++){
-		long id = ((i<<3)+11) % N;
-		for(int j=0; j<map[id].size; j++){
-			v = map[id].data[j];
-		}
-		num += map[id].size;
-	}
-	printf("visit rel num = %d\n", num);
-
-	gettimeofday(&t3,NULL);
-	time = gettime(t2, t3);
-	printf("visit map! time use = %f ms\n", time);
-	// --- end
-}
 
 int main() {
 	string fname = "data/hello.dat";
