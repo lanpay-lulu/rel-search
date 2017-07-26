@@ -17,53 +17,6 @@ int randInt(int n) {
 	return rand() % n;
 }
 
-double gettime(struct timeval & t1, struct timeval & t2) {
-	return (t2.tv_sec - t1.tv_sec)*1000 + (t2.tv_usec - t1.tv_usec)/1000.0;
-}
-
-long* createData(short size) {
-	long* data = new long[size];
-	for(int i=0; i<size; i++){
-		data[i] = i;
-	}
-	return data;
-}
-
-Rdata* createData1(short size) {
-	Rdata* data = new Rdata[size];
-	for(int i=0; i<size; i++){
-		data[i].type = 'a' + randInt(26);
-	}
-	return data;
-}
-
-void genDat(string fname, int n) {
-	struct timeval t1;
-    struct timeval t2;
-
-    // --- begin
-    gettimeofday(&t1,NULL);
-
-	ofstream fout(fname, std::ios::binary);
-	fout.write((char*) &n, sizeof(n));
-	long id;
-	for(int i=0; i<n; i++){
-		id = i;
-		Tdata nd;
-		nd.size = randInt(50) + 1;
-		nd.data = createData1(nd.size);
-		if(i<5){
-			printf("write data %ld, len=%d\n",id,nd.size);
-		}
-		fout.write((char*) &id, sizeof(id));
-		fout.write((char*) &(nd.size), sizeof(nd.size));
-		fout.write((char*)nd.data, nd.size*sizeof(Rdata));
-	}
-	fout.close();
-	// --- end
-    gettimeofday(&t2,NULL);
-    printf("genDat! time use = %f ms\n", gettime(t1,t2));
-}
 
 void readDat(string fname, tmap & map) {
 	std::ifstream fin(fname, std::ios::binary);
@@ -85,6 +38,9 @@ void readDat(string fname, tmap & map) {
 	fin.close();
 }
 
+double gettime(struct timeval & t1, struct timeval & t2) {
+	return (t2.tv_sec - t1.tv_sec)*1000 + (t2.tv_usec - t1.tv_usec)/1000.0;
+}
 
 void test() {
 	printf("hello world!\n");
@@ -101,14 +57,6 @@ void test() {
     gettimeofday(&t1,NULL);
 
 	hashmap map(N*2);	
-	for(int i=0; i<N; i++){
-		long id = i;
-		Ndata nd;
-		nd.size = (i%10)+1;
-		nd.data = createData(nd.size);
-		map[id] = nd;
-		
-	}
 	
 	gettimeofday(&t2,NULL);
 	time = gettime(t1, t2);
@@ -130,11 +78,16 @@ void test() {
 	// --- end
 }
 
+
+
 int main() {
 	string fname = "data/hello.dat";
-	const int n = 100;
-	genDat(fname, n);
-	//readDat(fname);
+	//const int n = 100;
+	//genDat(fname, n);
+	tmap map;
+	readDat(fname, map);
+	long id = 3;
+	printf("id=%ld, size=%d\n", id, map[id].size);
 
 	return 0;
 }
