@@ -66,6 +66,7 @@ void genDat(string fname, int n) {
 	// --- end
     gettimeofday(&t2,NULL);
     printf("genDat! time use = %f ms\n", gettime(t1,t2));
+    printf("write data to %s\n", fname.c_str());
 }
 
 void readDat(string fname, tmap & map) {
