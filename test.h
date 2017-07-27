@@ -1,4 +1,5 @@
 
+double gettime(struct timeval & t1, struct timeval & t2);
 
 struct Rdata
 {

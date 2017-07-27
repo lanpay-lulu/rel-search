@@ -91,7 +91,7 @@ void readDat(string fname, tmap & map) {
 
 int main() {
 	string fname = "data/hello.dat";
-	const int n = 100;
+	const int n = 10000000; // 1kw
 	genDat(fname, n);
 	//readDat(fname);
 
