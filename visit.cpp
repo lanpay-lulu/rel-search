@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#include <thread>  
+
 #include "test.h"
 
 using namespace std;
@@ -85,6 +87,45 @@ void test(tmap & map, int n) {
 	// --- end
 }
 
+void visitRange(tmap & map, long fromId, long toId) {
+	for(long i=fromId; i<toId; i++){
+		visit(map, i);
+	}
+}
+
+/**
+ * test map n times using threadNum threads
+*/
+/*void testM(tmap & map, int n, int threadNum) {
+	struct timeval t1;
+    struct timeval t2;
+    double time;
+
+    // --- begin
+    gettimeofday(&t1,NULL);
+
+    if(n >= map.size()) {
+    	n = map.size();
+    }
+    if(threadNum > 4){
+    	threadNum = 4;
+    }
+
+    int pack = n / threadNum;
+
+    for(int k=0; k<threadNum; k++){
+    	long fromId = k*pack;
+    	long toId = fromId+pack;
+    	thread t(visitRange, map, fromId, toId);
+    }
+	
+
+	gettimeofday(&t2,NULL);
+	time = gettime(t1, t2);
+	printf("visit map! n=%d, time use=%f ms\n", n, time);
+	// --- end
+}*/
+
 
 
 
@@ -94,7 +135,10 @@ int main() {
 	//genDat(fname, n);
 	tmap map;
 	readDat(fname, map);
-	test(map, 1000000);
+	test(map, 5000000);
+	test(map, 10000000);
+	test(map, 20000000);
+
 	//long id = 3;
 	//printf("id=%ld, size=%d\n", id, map[id].size);
 

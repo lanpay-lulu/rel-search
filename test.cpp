@@ -46,6 +46,7 @@ void genDat(string fname, int n) {
 
 	ofstream fout(fname, std::ios::binary);
 	fout.write((char*) &n, sizeof(n));
+	int rsize = 0;
 	long id;
 	for(int i=0; i<n; i++){
 		if(i%1000000==0){
@@ -54,6 +55,7 @@ void genDat(string fname, int n) {
 		id = i;
 		Tdata nd;
 		nd.size = randInt(50) + 1;
+		rsize += nd.size;
 		nd.data = createData1(nd.size);
 		if(i<5){
 			printf("write data %ld, len=%d\n",id,nd.size);
@@ -67,6 +69,7 @@ void genDat(string fname, int n) {
     gettimeofday(&t2,NULL);
     printf("genDat! time use = %f ms\n", gettime(t1,t2));
     printf("write data to %s\n", fname.c_str());
+    printf("total relation num = %d\n", rsize);
 }
 
 void readDat(string fname, tmap & map) {
