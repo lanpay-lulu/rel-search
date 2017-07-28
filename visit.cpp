@@ -83,7 +83,8 @@ void test(tmap & map, int n) {
 
 	gettimeofday(&t2,NULL);
 	time = gettime(t1, t2);
-	printf("visit map! n=%d, time use=%f ms\n", n, time);
+	double qps = n/time*1000;
+	printf("visit map! n=%d, time use=%f ms, qps=%f\n", n, time, qps);
 	// --- end
 }
 
